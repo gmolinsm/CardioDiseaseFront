@@ -166,7 +166,7 @@ export default {
       if (!this.form) return
       this.messageColor = null
       this.loading = true
-      fetch('http://127.0.0.1:5000/predict', {
+      fetch('https://cardio-disease-back.lm.r.appspot.com/predict', {
         method: 'post',
         headers: {
           'content-type': 'application/json'
