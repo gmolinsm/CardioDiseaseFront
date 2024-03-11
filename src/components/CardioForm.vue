@@ -131,12 +131,12 @@ export default {
     rules: [
       value => {
         if (value){
-          if (value.indexOf(',') <= -1){
+          if (!isNaN(parseFloat(value)) && isFinite(value)) {
             return true
           }
-          return 'Please use . for decimal point'
+          return 'Enter a valid number'
         }
-          return 'This field is required'
+        return 'Field is required'
       },
     ],
     generalHealth: ["Poor", "Fair", "Good", "Very Good", "Excellent"],
