@@ -5,95 +5,57 @@
             <v-sheet :elevation="12" class="mx-auto content" max-width="600px" rounded>
                 <v-form v-model="form" fast-fail @submit.prevent="onSubmit">
                     <v-text-field
-                        v-model="heightCm"
-                        :rules="[required]"
-                        label="Height in centimeters"
+                        v-model="heightCmData"
+                        :rules="rules"
+                        label="Your height in centimeters"
                     ></v-text-field>
                     <v-text-field
-                        v-model="weightKg"
-                        label="Weight in kilograms"
-                        :rules="[required]"
-                    ></v-text-field>
-                    <v-text-field
-                        v-model="bmi"
-                        label="BMI"
-                        :rules="[required]"
-                    ></v-text-field>
-                    <v-text-field
-                        v-model="alcoholConsumption"
-                        label="Alcohol Consumption (from 0 to 30)"
-                        :rules="[required]"
-                    ></v-text-field>
-                    <v-text-field
-                        v-model="fruitConsumption"
-                        label="Fruit Consumption (from 0 to 120)"
-                        :rules="[required]"
-                    ></v-text-field>
-                    <v-text-field
-                        v-model="greenVegetableConsumption"
-                        label="Green Vegetable Consumption (from 0 to 128)"
-                        :rules="[required]"
-                    ></v-text-field>
-                    <v-text-field
-                        v-model="friedPotatoConsumption"
-                        label="Fried Potato Consumption (from 0 to 128)"
-                        :rules="[required]"
+                        v-model="weightKgData"
+                        label="Your weight in kilograms"
+                        :rules="rules"
                     ></v-text-field>
 
-                    <v-select
-                      :items="generalHealth"
-                      v-model="generalHealthData"
-                      label="General Health"
-                      :rules="[required]"
-                    ></v-select>
-                    <v-select
-                      :items="checkup"
-                      v-model="checkupData"
-                      label="Last medical checkup attended"
-                      :rules="[required]"
-                    ></v-select>
-                    <v-select
-                      :items="exercise"
-                      v-model="exerciseData"
-                      label="Do you exercise regularly?"
-                      :rules="[required]"
-                    ></v-select>
-                    <v-select
-                      :items="skinCancer"
-                      v-model="skinCancerData"
-                      label="Do you suffer skin cancer?"
-                      :rules="[required]"
-                    ></v-select>
-                    <v-select
-                      :items="otherCancer"
-                      v-model="otherCancerData"
-                      label="Do you suffer other form of cancer?"
-                      :rules="[required]"
-                    ></v-select>
-                    <v-select
-                      :items="depression"
-                      v-model="depressionData"
-                      label="Do you suffer from depression?"
-                      :rules="[required]"
-                    ></v-select>
-                    <v-select
-                      :items="diabetes"
-                      v-model="diabetesData"
-                      label="Do you suffer from diabetes?"
-                      :rules="[required]"
-                    ></v-select>
-                    <v-select
-                      :items="arthritis"
-                      v-model="arthritisData"
-                      label="Do you suffer from arthritis?"
-                      :rules="[required]"
-                    ></v-select>
-                    <v-select
-                      :items="sex"
-                      v-model="sexData"
-                      label="Sex"
-                      :rules="[required]"
-                    ></v-select>
+                    <div class="text-caption">Alcohol Consumption in a week (0 means no alcohol, 10 means daily use)</div>
+                    <v-slider
+                      v-model="alcoholConsumption"
+                      :min="0"
+                      :max="10"
+                      class="align-center"
+                      thumb-label
+                      step="1"
+                      tick-size="4"
+                    ></v-slider>
+                    <div class="text-caption">Fruit Consumption in a week (0 means no fruit, 10 means a lot of fruit)</div>
+                    <v-slider
+                      v-model="fruitConsumption"
+                      :min="0"
+                      :max="10"
+                      class="align-center"
+                      thumb-label
+                      step="1"
+                      tick-size="4"
+                    ></v-slider>
+                    <div class="text-caption">Green Vegetable Consumption in a week (0 no vegetables, 10 a lot of vegetables)</div>
+                    <v-slider
+                      v-model="greenVegetableConsumption"
+                      :min="0"
+                      :max="10"
+                      class="align-center"
+                      thumb-label
+                      step="1"
+                      tick-size="4"
+                    ></v-slider>
+                    <div class="text-caption">Fried Foods Consumption in a week (0 no fried foods, 10 daily McDonalds)</div>
+                    <v-slider
+                      v-model="friedPotatoConsumption"
+                      :min="0"
+                      :max="10"
+                      class="align-center"
+                      thumb-label
+                      step="1"
+                      tick-size="4"
+                    ></v-slider>
+
                     <v-select
                       :items="age"
                       v-model="ageData"
@@ -101,11 +63,51 @@
                       :rules="[required]"
                     ></v-select>
                     <v-select
-                      :items="smokingHistory"
-                      v-model="smokingHistoryData"
-                      label="Smoking History"
+                      :items="generalHealth"
+                      v-model="generalHealthData"
+                      label="How would you rate your general health?"
                       :rules="[required]"
                     ></v-select>
+                    <v-select
+                      :items="checkup"
+                      v-model="checkupData"
+                      label="When was the last medical checkup you attended?"
+                      :rules="[required]"
+                    ></v-select>
+
+                    <v-radio-group :rules="[required]" v-model="exerciseData" inline label="Do you exercise regularly?">
+                      <v-radio label="Yes" value="Yes"></v-radio>
+                      <v-radio label="No" value="No"></v-radio>
+                    </v-radio-group>
+                    <v-radio-group :rules="[required]" v-model="skinCancerData" inline label="Do you suffer skin cancer?">
+                      <v-radio label="Yes" value="Yes"></v-radio>
+                      <v-radio label="No" value="No"></v-radio>
+                    </v-radio-group>
+                    <v-radio-group :rules="[required]" v-model="otherCancerData" inline label="Do you suffer other forms of cancer?">
+                      <v-radio label="Yes" value="Yes"></v-radio>
+                      <v-radio label="No" value="No"></v-radio>
+                    </v-radio-group>
+                    <v-radio-group :rules="[required]" v-model="depressionData" inline label="Do you suffer from depression?">
+                      <v-radio label="Yes" value="Yes"></v-radio>
+                      <v-radio label="No" value="No"></v-radio>
+                    </v-radio-group>
+                    <v-radio-group :rules="[required]" v-model="diabetesData" inline label="Do you suffer from diabetes?">
+                      <v-radio label="Yes" value="Yes"></v-radio>
+                      <v-radio label="No" value="No"></v-radio>
+                    </v-radio-group>
+                    <v-radio-group :rules="[required]" v-model="arthritisData" inline label="Do you suffer from arthritis?">
+                      <v-radio label="Yes" value="Yes"></v-radio>
+                      <v-radio label="No" value="No"></v-radio>
+                    </v-radio-group>
+                    <v-radio-group :rules="[required]" v-model="smokingHistoryData" inline label="Have you smoked for long periods of time?">
+                      <v-radio label="Yes" value="Yes"></v-radio>
+                      <v-radio label="No" value="No"></v-radio>
+                    </v-radio-group>
+                    <v-radio-group :rules="[required]" v-model="sexData" inline label="Biological Sex">
+                      <v-radio label="Male" value="Male"></v-radio>
+                      <v-radio label="Female" value="Female"></v-radio>
+                    </v-radio-group>
+                    
                     <v-btn 
                         :disabled="!form"
                         :loading="loading"
@@ -126,71 +128,76 @@
 <script>
 export default {
   data: () => ({
+    rules: [
+      value => {
+        if (value){
+          if (value.indexOf(',') <= -1){
+            return true
+          }
+          return 'Please use . for decimal point'
+        }
+          return 'This field is required'
+      },
+    ],
+    generalHealth: ["Poor", "Fair", "Good", "Very Good", "Excellent"],
+    checkup: ["Within the past year", "Within the past 2 years", "Within the past 5 years", "5 or more years ago", "Never"],
+    age: ["18-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80+"],
     form: false,
     loading: false,
-    heightCm: null,
-    weightKg: null,
-    bmi: null,
+    heightCmData: null,
+    weightKgData: null,
     alcoholConsumption: null,
     fruitConsumption: null,
     greenVegetableConsumption: null,
     friedPotatoConsumption: null,
-    generalHealth: ["Poor", "Fair", "Good", "Very Good", "Excellent"],
     generalHealthData: null,
-    checkup: ["Within the past year", "Within the past 2 years", "Within the past 5 years", "5 or more years ago", "Never"],
-    checkupData: null,
-    exercise: ["Yes", "No"],
-    exerciseData: null,
-    skinCancer: ["Yes", "No"],
-    skinCancerData: null,
-    otherCancer: ["Yes", "No"],
-    otherCancerData: null,
-    depression: ["Yes", "No"],
-    depressionData: null,
-    diabetes: ["Yes", "No"],
-    diabetesData: null,
-    arthritis: ["Yes", "No"],
-    arthritisData: null,
-    sex: ["Male", "Female"],
     sexData: null,
-    age: ["18-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80+"],
+    checkupData: null,
+    exerciseData: null,
+    skinCancerData: null,
+    otherCancerData: null,
+    depressionData: null,
+    diabetesData: null,
+    arthritisData: null,
     ageData: null,
-    smokingHistory: ["Yes", "No"],
     smokingHistoryData: null,
     errorMessage: null,
     messageColor: null,
-    predictedClass: null
+    predictedClass: null,
+    body: null
   }),
   methods: {
     onSubmit () {
       if (!this.form) return
       this.messageColor = null
       this.loading = true
+      this.body = JSON.stringify({
+        general_health: this.generalHealthData,
+        checkup: this.checkupData,
+        exercise: this.exerciseData,
+        skin_cancer: this.skinCancerData,
+        other_cancer: this.otherCancerData,
+        depression: this.depressionData,
+        diabetes: this.diabetesData,
+        arthritis: this.arthritisData,
+        sex: this.sexData,
+        age_category: this.ageData,
+        height_cm: this.heightCmData,
+        weight_kg: this.weightKgData,
+        bmi: this.weightKgData / Math.pow(this.heightCmData/100, 2),
+        smoking_history: this.smokingHistoryData,
+        alcohol_consumption: (this.alcoholConsumption/10)*30,
+        fruit_consumption: (this.fruitConsumption/10)*120,
+        green_vegetables_consumption: (this.greenVegetableConsumption/10)*128,
+        fried_potato_consumption: (this.friedPotatoConsumption/10)*128
+      })
+      console.log(this.body)
       fetch('https://cardio-disease-back.lm.r.appspot.com/predict', {
         method: 'post',
         headers: {
           'content-type': 'application/json'
         },
-        body: JSON.stringify({
-          general_health: this.generalHealthData,
-          checkup: this.checkupData,
-          exercise: this.exerciseData,
-          skin_cancer: this.skinCancerData,
-          other_cancer: this.otherCancerData,
-          depression: this.depressionData,
-          diabetes: this.diabetesData,
-          arthritis: this.arthritisData,
-          sex: this.sexData,
-          age_category: this.ageData,
-          height_cm: this.heightCm,
-          weight_kg: this.weightKg,
-          bmi: this.bmi,
-          smoking_history: this.smokingHistoryData,
-          alcohol_consumption: this.alcoholConsumption,
-          fruit_consumption: this.fruitConsumption,
-          green_vegetables_consumption: this.greenVegetableConsumption,
-          fried_potato_consumption: this.friedPotatoConsumption
-        })
+        body: this.body,
       }).then(res => {
         if (res.ok) {
           this.errorMessage = null
